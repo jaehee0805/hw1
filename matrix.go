@@ -47,55 +47,25 @@ func Transpose(mat [][]int) [][]int {
 
 // AreNeighbors returns true iff a and b are neighbors in the 2D matrix mat.
 func AreNeighbors(mat [][]int, a, b int) bool {
-	neighbors := false
-	if mat == nil {
+	if mat == nil || len(mat) == 0 || len(mat[0]) == 0 {
 		return false
 	}
 
 	rows := len(mat)
-	if rows == 0 {
-		return false
-	}
-
-	cols := len(mat)
-
-	if rows == 1 && cols == 1 {
-		return false
-	}
-
-	if rows == 1 {
-		i := 0
-		for j := 0; j < cols-1; j++ {
-			if (mat[i][j] == a && mat[i][j+1] == b) || (mat[i][j+1] == b && mat[i][j] == a) {
-				neighbors = true
-			}
-		}
-	}
-
-	if cols == 1 {
-		j := 0
-		for i := 0; i < rows-1; i++ {
-			if (mat[i][j] == a && mat[i+1][j] == b) || (mat[i+1][j] == b && mat[i][j] == a) {
-				neighbors = true
-			}
-		}
-	}
+	cols := len(mat[0])
 
 	for i := 0; i < rows; i++ {
-		for j := 0; j < cols-1; j++ {
-			if (mat[i][j] == a && mat[i][j+1] == b) || (mat[i][j+1] == b && mat[i][j] == a) {
-				neighbors = true
+		for j := 0; j < cols; j++ {
+			if mat[i][j] == a {
+				if (j > 0 && mat[i][j-1] == b) || // left neighbor
+					(j < cols-1 && mat[i][j+1] == b) || // right neighbor
+					(i > 0 && mat[i-1][j] == b) || // top neighbor
+					(i < rows-1 && mat[i+1][j] == b) { // bottom neighbor
+					return true
+				}
 			}
 		}
 	}
 
-	for j := 0; j < cols; j++ {
-		for i := 0; i < rows-1; i++ {
-			if (mat[i][j] == a && mat[i+1][j] == b) || (mat[i+1][j] == b && mat[i][j] == a) {
-				neighbors = true
-			}
-		}
-	}
-
-	return neighbors
+	return false
 }
