@@ -19,30 +19,33 @@ type LGraph func(node) ([]edge, bool)
 // TODO: Complete the function.
 //	panic("TODO: implement this!")
 //}
-
 func FindSequence(g1, g2 LGraph, s, t node, k uint) ([]rune, bool) {
+	// Handle the special case where k = 0
 	if k == 0 {
-		if (s == 0) && (t == 0) {
-			return nil, false
-		}
 		if s == t {
-			return []rune{}, true
+			// Empty sequence is valid if g1 recognizes s as a valid node
+			_, existsInG1 := g1(s)
+			_, existsInG2 := g2(s)
+			if existsInG1 && !existsInG2 {
+				return []rune{}, true
+			}
 		}
-		return nil, false
+		return nil, false // k=0 but s != t, or invalid sequence
 	}
+
 	// Helper function to perform DFS and find sequences of length k
 	var dfs func(current node, path []rune, length uint) ([]rune, bool)
 	dfs = func(current node, path []rune, length uint) ([]rune, bool) {
-		// Base case: if we reach length k and are at target node t
+		// Base case: if we reach length k
 		if length == k {
 			if current == t {
-				// Check if this sequence exists in g2
+				// Ensure this sequence does not exist in g2
 				if existsInGraph(g2, s, t, path) {
-					return nil, false // Path exists in both graphs, return failure
+					return nil, false // Sequence exists in both graphs
 				}
-				return path, true // Path exists only in g1, return success
+				return path, true // Sequence exists only in g1
 			}
-			return nil, false
+			return nil, false // Incorrect path length
 		}
 
 		// Get neighbors from graph g1
