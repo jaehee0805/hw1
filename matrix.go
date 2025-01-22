@@ -57,10 +57,10 @@ func AreNeighbors(mat [][]int, a, b int) bool {
 	for i := 0; i < rows; i++ {
 		for j := 0; j < cols; j++ {
 			if mat[i][j] == a {
-				if (j > 0 && mat[i][j-1] == b) || // left neighbor
-					(j < cols-1 && mat[i][j+1] == b) || // right neighbor
-					(i > 0 && mat[i-1][j] == b) || // top neighbor
-					(i < rows-1 && mat[i+1][j] == b) { // bottom neighbor
+				if (j > 0 && mat[i][j-1] == b) ||
+					(j < cols-1 && mat[i][j+1] == b) ||
+					(i > 0 && mat[i-1][j] == b) ||
+					(i < rows-1 && mat[i+1][j] == b) {
 					return true
 				}
 			}
