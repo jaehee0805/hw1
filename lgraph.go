@@ -21,6 +21,15 @@ type LGraph func(node) ([]edge, bool)
 //}
 
 func FindSequence(g1, g2 LGraph, s, t node, k uint) ([]rune, bool) {
+	if k == 0 {
+		if (s == 0) && (t == 0) {
+			return nil, false
+		}
+		if s == t {
+			return []rune{}, true
+		}
+		return nil, false
+	}
 	// Helper function to perform DFS and find sequences of length k
 	var dfs func(current node, path []rune, length uint) ([]rune, bool)
 	dfs = func(current node, path []rune, length uint) ([]rune, bool) {
